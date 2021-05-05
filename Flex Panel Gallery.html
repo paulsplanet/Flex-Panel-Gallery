@@ -15,28 +15,50 @@
             min-height: 100vh;
             overflow: hidden;
             display: flex;
-            font-size: 30px;
         }
         .panel {
             flex: 1;
+            display: flex;
+            flex-direction: column;
+            transition: 
+                font-size 0.7s cubic-bezier(0.61, -0.19, 0.7, -0.11), 
+                flex 0.7s cubic-bezier(0.61, -0.19, 0.7, -0.11), 
+                background 0.2s; /* if this code doesn't exist, JS doesn't work */
+                font-size: 30px;
+        }
+        .panel > p {
+            flex: 1 0 auto;
+            vertical-align: middle;
+            text-align: center;
+            margin: 0;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            transition: flex 0.7s cubic-bezier(0.61, -0.19, 0.7, -0.11);
             
         }
+
+        .panel > *:first-child { transform: translateY(-100%); }
+        .panel.open-active > *:first-child { transform: translateY(0%); transition: 0.5s cubic-bezier(0.61, -0.19, 0.7, -0.11); }
+        .panel > *:last-child { transform: translateY(100%); }
+        .panel.open-active > *:last-child { transform: translateY(0%); transition: 0.5s cubic-bezier(0.61, -0.19, 0.7, -0.11);}
+
+        .open { flex: 5 !important; font-size: 50px; }
 
         .panel1 {
             background: no-repeat url("https://uploads-ssl.webflow.com/5e7becada8b9555b8fa0c5cb/5ea2eac395e67d887836ba01_herbal-tea-for-anxiety.jpg");
         }
         .panel2 {
-            background: no-repeat url("https://images.theconversation.com/files/397026/original/file-20210426-23-dhor35.jpg?ixlib=rb-1.1.0&rect=218%2C102%2C3566%2C2195&q=45&auto=format&w=496&fit=clip");
-            object-fit: fill;
+            background: no-repeat url("https://www.wallpaperuse.com/wallp/47-478315_m.jpg");
         }
         .panel3 {
-            background: no-repeat url("https://denpeakacademy.files.wordpress.com/2016/02/red-book-green-background.jpg?w=640");
+            background: no-repeat url("https://www.wallpapertip.com/wmimgs/9-98008_reading-background-hd.jpg"); 
         }
         .panel4 {
             background: no-repeat url("https://static.onecms.io/wp-content/uploads/sites/34/2020/08/04/woman-hiking-mountain-getty-0720.jpg");
         }
         .panel5 {
-            background: no-repeat url("https://www.rolandberger.com/img/Tiles/RB_DIG_001_03_ART_353_The_Butterfly_Principle_ST_1700x1040.jpg");
+            background: no-repeat url("https://wallpaperaccess.com/full/176885.jpg");
         }
     </style>
 
@@ -46,17 +68,17 @@
         <div class="panel panel1">
             <p>SLOW</p>
             <p>DOWN</p>
-            <p></p>
+            <p>&nbsp;</p>
         </div>
         <div class="panel panel2">
             <p>SLEEP</p>
             <p>MORE</p>
-            <p></p>
+            <p>&nbsp;</p>
         </div>
         <div class="panel panel3">
             <p>READ</p>
             <p>BOOKS</p>
-            <p></p>
+            <p>&nbsp;</p>
         </div>
         <div class="panel panel4">
             <p>WALK</p>
@@ -66,9 +88,26 @@
         <div class="panel panel5">
             <p>BE</p>
             <p>KIND</p>
-            <p></p>
+            <p>&nbsp;</p>
         </div>
     </div>
 
+    <script>
+        const panels = document.querySelectorAll(".panel");
+        function toggleOpen() {
+            this.classList.toggle('open');
+        }
+        
+        function toggleActive(e) {
+            console.log(e.propertyName);
+            if(e.propertyName === 'flex-grow') {
+                this.classList.toggle('open-active');
+            }
+        }
+
+        panels.forEach(panel => panel.addEventListener("click", toggleOpen));
+        panels.forEach(panel => panel.addEventListener("transitionend", toggleActive));
+
+    </script>
 </body>
 </html>
